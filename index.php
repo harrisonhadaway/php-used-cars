@@ -12,8 +12,29 @@
 <?php
     // Connect to database -get database handle.
     function getDb() {
-        $db = pg_connect("host=localhost port=5432 dbname=cars user=caruser password=carscarscars");
+
+
+
+        $raw_url = 'postgres://jqkghanusxrvqz:d4b0de336960e5a49fd02b82670483226eef9a7fea5a2d78738c51e6380ae87f@ec2-54-243-47-252.compute-1.amazonaws.com:5432/d818lqg534tfd8';
+
+        $url = parse_url($raw_url);
+
+        var_dump($url);
+
+        $db_port = $url['port'];
+        $db_host = $url['host'];
+        $db_user = $url['user'];
+        $db_pass = $url['pass'];
+        $db_name = substr($url, ['path'], 1);
+
+        $db = pg_connect(
+            "host" . $db_host .
+            " port=" . $db_port .
+            "dbname" . $db_name .
+            " user" . $db_user .
+            " password=" . $db_pass);
         return $db;
+
     }
     // Make a request.
     function getInventory() {
